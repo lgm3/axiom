@@ -1,66 +1,68 @@
 <script lang="ts">
+  import SideBar from '../components/SideBar.svelte';
   import Spreadsheet from './Spreadsheet.svelte';
+  
   let activeTab = $state(0);
 </script>
 
-<main>
-  <div class="tabs">
-    <button 
-      class:active={activeTab === 0} 
-      onclick={() => activeTab = 0}
-    >
-      Sheet1.csv
-    </button>
-    <button 
-      class:active={activeTab === 1} 
-      onclick={() => activeTab = 1}
-    >
-      Sheet2.csv
-    </button>
-  </div>
+<div class="app">
+  <SideBar />
+  <main>
+    <div class="tabs">
+      <button class:active={activeTab === 0} onclick={() => activeTab = 0}>
+        Sheet1.csv
+      </button>
+      <button class:active={activeTab === 1} onclick={() => activeTab = 1}>
+        Sheet2.csv
+      </button>
+    </div>
 
-  <div class="content">
-    {#if activeTab === 0}
-      <Spreadsheet content="Spreadsheet 1 Content" />
-    {:else}
-      <Spreadsheet content="Spreadsheet 2 Content" />
-    {/if}
-  </div>
-</main>
+    <div class="content">
+      {#if activeTab === 0}
+        <Spreadsheet content="Sheet1.csv" />
+      {:else}
+        <Spreadsheet content="Sheet2.csv" />
+      {/if}
+    </div>
+  </main>
+</div>
 
 <style>
-  main {
+  .app {
+    display: flex;
     height: 100vh;
+    color: #ffffff;
+  }
+
+  main {
+    flex: 1;
+    background: #1e1e1e;
     display: flex;
     flex-direction: column;
   }
 
+  .content {
+    flex: 1;
+    overflow: hidden;
+  }
+
   .tabs {
-    background: #1e1e1e;
+    display: flex;
+    background: #252526;
     border-bottom: 1px solid #333;
   }
 
-  button {
+  .tabs button {
     padding: 8px 16px;
+    background: none;
     border: none;
-    background: transparent;
-    color: #969696;
+    color: #858585;
     cursor: pointer;
+    border-right: 1px solid #333;
   }
 
-  button.active {
-    background: #252526;
-    color: white;
-    border-bottom: 2px solid #007acc;
-  }
-
-  .content {
-    flex: 1;
-    background: #252526;
-  }
-
-  .spreadsheet {
-    padding: 20px;
-    color: white;
+  .tabs button.active {
+    background: #1e1e1e;
+    color: #ffffff;
   }
 </style>
