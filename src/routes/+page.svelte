@@ -28,6 +28,11 @@
 </div>
 
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+  }
+
   .app {
     display: flex;
     height: 100vh;
