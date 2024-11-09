@@ -1,6 +1,9 @@
 <script lang="ts">
   export let content: string;
   
+  // Parse content string into 2D array
+  const contentArray = content.split('\n').map(row => row.split(','));
+  
   // Generate A-Z column headers
   const columns = Array.from({ length: 26 }, (_, i) => 
     String.fromCharCode(65 + i)
@@ -24,8 +27,10 @@
       {#each rows as row}
         <tr>
           <th>{row}</th>
-          {#each columns as col}
-            <td contenteditable="true"></td>
+          {#each columns as col, colIndex}
+            <td contenteditable="true">
+              {contentArray[row - 1]?.[colIndex] || ''}
+            </td>
           {/each}
         </tr>
       {/each}

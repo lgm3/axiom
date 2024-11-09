@@ -3,6 +3,27 @@
   import Spreadsheet from './Spreadsheet.svelte';
   
   let activeTab = $state(0);
+  let csvContent = $state('');
+
+  async function handleFileSelect(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    if (files && files[0]) {
+      const text = await files[0].text();
+      csvContent = text;
+      
+      const blob = new Blob([text], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.click();
+      
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+  }
 </script>
 
 <div class="app">
@@ -19,11 +40,17 @@
 
     <div class="content">
       {#if activeTab === 0}
-        <Spreadsheet content="Sheet1.csv" />
+        <Spreadsheet content={csvContent} />
       {:else}
         <Spreadsheet content="Sheet2.csv" />
       {/if}
     </div>
+
+    <input 
+      type="file" 
+      accept=".csv"
+      onchange={handleFileSelect}
+    />
   </main>
 </div>
 
